@@ -32,22 +32,26 @@ const CustomersSchema = new SimpleSchema({
     type: String,
     label: 'The last four digits of the credit card the customer has on file.',
   },
-  'subscription.$.id': {
+  'subscription.id': {
     type: String,
     label: 'The ID of the user\'s subscription on Stripe.',
+    optional: true,
   },
-  'subscription.$.status': {
+  'subscription.status': {
     type: String,
-    allowedValues: ['active', 'cancelling', 'canceled', 'none'],
+    allowedValues: ['active', 'cancelling', 'canceled', 'none', 'trialing'],
     label: 'The ID of the user\'s subscription on Stripe.',
+    optional: true,
   },
-  'subscription.$.plan': {
+  'subscription.plan': {
     type: String,
     label: 'The ID of the user\'s plan on Stripe.',
+    optional: true,
   },
-  'subscription.$.current_period_end': {
-    type: String,
+  'subscription.current_period_end': {
+    type: Number,
     label: 'The next change date for the customer\'s subscription on Stripe (epoch timestamp in seconds).',
+    optional: true,
   },
 });
 

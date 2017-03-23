@@ -8,21 +8,8 @@
 
 .Signup .Plans {
   margin-bottom: 20px;
-  background: #fafafa;
-  border: 1px solid #eee;
-  border-radius: 3px;
 }
 
-.Signup .Plans .Plan {
-  display: block;
-  padding: 15px;
-  margin: 0;
-
-  input {
-    margin-right: 10px;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #eee;
-  }
+.Signup .Card {
+  margin-bottom: 20px;
 }

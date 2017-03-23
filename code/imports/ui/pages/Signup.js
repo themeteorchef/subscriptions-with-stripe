@@ -2,9 +2,15 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Row, Col, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
 import Plans from '../components/Plans';
+import Card from '../components/Card';
 import handleSignup from '../../modules/signup';
 
 class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentDidMount() {
     handleSignup({ component: this });
   }
@@ -27,49 +33,60 @@ class Signup extends React.Component {
                 <Col xs={ 6 } sm={ 6 }>
                   <FormGroup>
                     <ControlLabel>First Name</ControlLabel>
-                    <FormControl
+                    <input
                       type="text"
-                      ref="firstName"
+                      ref={firstName => (this.firstName = firstName)}
                       name="firstName"
                       placeholder="First Name"
+                      className="form-control"
                     />
                   </FormGroup>
                 </Col>
                 <Col xs={ 6 } sm={ 6 }>
                   <FormGroup>
                     <ControlLabel>Last Name</ControlLabel>
-                    <FormControl
+                    <input
                       type="text"
-                      ref="lastName"
+                      ref={lastName => (this.lastName = lastName)}
                       name="lastName"
                       placeholder="Last Name"
+                      className="form-control"
                     />
                   </FormGroup>
                 </Col>
               </Row>
               <FormGroup>
                 <ControlLabel>Email Address</ControlLabel>
-                <FormControl
-                  type="text"
-                  ref="emailAddress"
+                <input
+                  type="email"
+                  ref={emailAddress => (this.emailAddress = emailAddress)}
                   name="emailAddress"
                   placeholder="Email Address"
+                  className="form-control"
                 />
               </FormGroup>
               <FormGroup>
                 <ControlLabel>Password</ControlLabel>
-                <FormControl
+                <input
                   type="password"
-                  ref="password"
+                  ref={password => (this.password = password)}
                   name="password"
                   placeholder="Password"
+                  className="form-control"
                 />
               </FormGroup>
               <h4 className="page-header">Payment Information</h4>
               <Row>
                 <Col xs={ 12 }>
-                  <Alert bsStyle="info"><strong>Select a plan size</strong>. When you sign up, your subscription will begin immediately (renewed monthly). Cancel anytime.</Alert>
-                  <Plans currentPlan="medium" />
+                  <Alert bsStyle="info">
+                    <strong>Select a plan size</strong>. When you sign up, your subscription will begin immediately (renewed monthly). Cancel anytime.
+                  </Alert>
+                  <Plans />
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={ 12 }>
+                  <Card ref={card => (this.card = card)} />
                 </Col>
               </Row>
               <Button type="submit" bsStyle="success" block>Sign Up</Button>

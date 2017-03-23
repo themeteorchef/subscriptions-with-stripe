@@ -1,33 +1,48 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, no-underscore-dangle */
 
 import { browserHistory } from 'react-router';
 import { Accounts } from 'meteor/accounts-base';
 import { Bert } from 'meteor/themeteorchef:bert';
-import getStripeToken from './get-stripe-token';
 import './validation';
 
 let component;
 
 const getUserData = () => ({
-  email: document.querySelector('[name="emailAddress"]').value,
-  password: document.querySelector('[name="password"]').value,
+  email: component.emailAddress.value,
+  password: component.password.value,
+  plan: document.querySelector('[name="plan"]:checked').value,
   profile: {
     name: {
-      first: document.querySelector('[name="firstName"]').value,
-      last: document.querySelector('[name="lastName"]').value,
+      first: component.firstName.value,
+      last: component.lastName.value,
     },
   },
 });
 
 const signup = () => {
-  const user = getUserData();
-
-  Accounts.createUser(user, (error) => {
+  window.stripe.createToken(component.card.card)
+  .then(({ error, token }) => {
     if (error) {
-      Bert.alert(error.reason, 'danger');
+      Bert.alert(error);
     } else {
-      browserHistory.push('/');
-      Bert.alert('Welcome!', 'success');
+      const user = getUserData();
+      const password = user.password;
+      user.password = Accounts._hashPassword(user.password);
+
+      Meteor.call('signup', { source: token.id, user }, (methodError) => {
+        if (methodError) {
+          Bert.alert(methodError.reason, 'danger');
+        } else {
+          Meteor.loginWithPassword(user.email, password, (loginError) => {
+            if (loginError) {
+              Bert.alert(loginError.reason, 'danger');
+            } else {
+              Bert.alert('Welcome to Doxie!', 'success');
+              browserHistory.push('/documents');
+            }
+          });
+        }
+      });
     }
   });
 };

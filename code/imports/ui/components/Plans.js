@@ -4,25 +4,37 @@ import { Meteor } from 'meteor/meteor';
 import Plans from '../../api/plans/plans';
 import centsToDollars from '../../modules/cents-to-dollars';
 
-const PlansList = ({ plans, currentPlan }) => (
-  <div className="Plans">
-    {plans.map(({ planId, label, price }) => {
-      const isCurrentPlan = currentPlan === planId;
-      return (
-        <label key={ planId } className={`Plan ${isCurrentPlan ? 'current' : ''}`}>
-          <input
-            type="radio"
-            name="plan"
-            value={ planId }
-            defaultChecked={ planId === 'small' }
-            disable={ isCurrentPlan }
-          />
-          { centsToDollars(price) } - { label }
-        </label>
-      );
-    })}
-  </div>
-);
+class PlansList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { plan: props.currentPlan || 'small' };
+    // this.thing = this.thing.bind(this);
+  }
+
+  render() {
+    const { plans, currentPlan } = this.props;
+    return (
+      <div className="Plans">
+        {plans.map(({ planId, label, price }) => {
+          const isCurrentPlan = currentPlan === planId;
+          return (
+            <label key={ planId } className={`Plan ${isCurrentPlan ? 'current' : ''}`}>
+              <input
+                type="radio"
+                name="plan"
+                value={ planId }
+                checked={ planId === this.state.plan }
+                disabled={ isCurrentPlan }
+                onChange={() => { this.setState({ plan: planId }); }}
+              />
+              { centsToDollars(price) } - { label }
+            </label>
+          );
+        })}
+      </div>
+    );
+  }
+}
 
 PlansList.propTypes = {
   plans: PropTypes.array,

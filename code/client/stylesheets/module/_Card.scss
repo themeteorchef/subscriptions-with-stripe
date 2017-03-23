@@ -1,0 +1,20 @@
+.Card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 3px;
+
+  #card-element {
+    padding: 15px;
+  }
+
+  .card-errors {
+    display: none;
+    margin: 0;
+    width: 100%;
+    padding: 10px 15px;
+    background: lighten(red, 45%);
+    color: red;
+    font-size: 13px;
+    border-radius: 0 0 3px 3px;
+  }
+}
