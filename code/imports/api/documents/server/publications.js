@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import Documents from '../documents';
 
-Meteor.publish('documents.list', () => Documents.find());
+Meteor.publish('documents.list', function documentsList() {
+  return Documents.find({ owner: this.userId });
+});
 
 Meteor.publish('documents.view', (_id) => {
   check(_id, String);

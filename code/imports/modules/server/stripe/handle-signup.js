@@ -2,8 +2,8 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import Customers from '../../api/customers/customers';
-import { createCustomer, createSubscription } from './stripe';
+import Customers from '../../../api/customers/customers';
+import { createCustomer, createSubscription } from './index';
 
 let action;
 
@@ -25,9 +25,9 @@ const createCustomerInDatabase = Meteor.bindEnvironment((customer) => {
   }
 });
 
-const createCustomerOnStripe = ({ userId, emailAddress }, source) => {
+const createCustomerOnStripe = ({ userId, profile, email }, source) => {
   try {
-    return createCustomer({ description: emailAddress, source })
+    return createCustomer({ email, source, metadata: profile.name })
     .then(({ id, sources }) => {
       const card = sources.data[0];
       return { card, id };

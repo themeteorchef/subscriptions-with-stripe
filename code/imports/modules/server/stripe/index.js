@@ -24,10 +24,8 @@ export const createCustomer = customer =>
 stripe.customers.create(customer);
 
 /*
-  customer = {
-    description: String,
-    source: String, // A Stripe token from the client.
-  };
+  customerId: String,
+  update: Object, // Contains properties to update on Stripe. For example: { source: <token> }
 */
 export const updateCustomer = (customerId, update) =>
 stripe.customers.update(customerId, update);
@@ -51,5 +49,5 @@ stripe.subscriptions.del(subscriptionId);
   subscriptionId = String; // The ID of the subscription on Stripe. For example: sub_AGLTRCbGMwmQcQ.
   update = Object; // Contains properties to update on Stripe. For example: { plan: "large" }
 */
-export const updateSubscription = (subscriptionId, update) =>
+export const changeSubscription = (subscriptionId, update) =>
 stripe.subscriptions.update(subscriptionId, update);

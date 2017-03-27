@@ -41,8 +41,8 @@ const InvoicesSchema = new SimpleSchema({
     label: 'Invoice total',
   },
   'lines.$.amount': {
-    type: String,
-    label: 'Amount for the line item.',
+    type: Number,
+    label: 'Amount for the line item in cents.',
   },
   'lines.$.description': {
     type: String,

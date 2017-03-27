@@ -1,0 +1,73 @@
+.Subscription {
+  .alert {
+    position: relative;
+    z-index: 5;
+    margin: -11px -16px;
+    border-radius: 3px 3px 0 0;
+
+    a {
+      text-decoration: underline;
+    }
+
+    &.alert-success {
+      border: 1px solid darken(#dff0d8, 15%);
+
+      a {
+        color: #3c763d;
+      }
+    }
+
+    &.alert-warning {
+      border: 1px solid darken(#fcf8e3, 25%);
+    }
+
+    &.alert-danger {
+      border: 1px solid darken(#f2dede, 15%);
+    }
+
+    &.alert-info {
+      border: 1px solid darken(#d9edf7, 15%);
+    }
+  }
+
+  .row div[class^="col-"]:nth-child(1) p,
+  .row div[class^="col-"]:nth-child(2) p {
+    margin: 7px 0 0 0;
+  }
+
+
+  .list-group-item .btn {
+    margin-top: 10px;
+  }
+}
+
+.Subscription .ChangePlan {
+  margin-top: 10px;
+
+  .Plans {
+    margin-bottom: 10px;
+  }
+}
+
+.Subscription .UpdatePayment {
+  margin-top: 10px;
+
+  .Card {
+    margin-bottom: 10px;
+  }
+}
+
+.Subscription .Invoices .label {
+  position: relative;
+  top: -1px;
+}
+
+@media screen and (min-width: 768px) {
+  .Subscription .list-group-item .btn {
+    margin-top: 0;
+  }
+
+  .Subscription .cancel-link {
+    float: right;
+  }
+}

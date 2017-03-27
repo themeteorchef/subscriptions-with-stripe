@@ -4,16 +4,27 @@ import { Meteor } from 'meteor/meteor';
 import Customers from '../../../../api/customers/customers.js';
 import Invoices from '../../../../api/invoices/invoices.js';
 
+const getDescription = (description, metadata) => {
+  try {
+    const hasDescription = metadata && metadata.description ? metadata.description : description;
+    return hasDescription || 'No description';
+  } catch (exception) {
+    console.warn(`[invoicePaymentSucceeded.getDescription] ${exception}`);
+  }
+};
+
 const parseLines = (lines) => {
   try {
-    return lines.map(({ amount, description, metadata, period }) => ({
-      amount,
-      description: metadata && metadata.description ? metadata.description : description,
-      period: {
-        start: period.start,
-        end: period.end,
-      },
-    }));
+    return lines.map(({ amount, description, metadata, period }) => {
+      return {
+        amount,
+        description: getDescription(description, metadata),
+        period: {
+          start: period.start,
+          end: period.end,
+        },
+      };
+    });
   } catch (exception) {
     console.warn(`[invoicePaymentSucceeded.parseLines] ${exception}`);
   }
@@ -58,22 +69,26 @@ const buildInvoice = (
   }
 };
 
-const invoicePaymentSucceeded = Meteor.bindEnvironment(({ data }) => {
+const invoicePaymentSucceeded = Meteor.bindEnvironment((webhook) => {
   try {
     let invoice;
-    let invoiceId;
 
-    const { object } = data; // equals 'invoice' or 'charge'
-    const customer = Customers.findOne({ customerId: data.customer });
-    const user = Meteor.users.findOne(
-      { _id: customer.userId },
-      { fields: { emails: 1, profile: 1 } }
-    );
+    const invoiceType = webhook.data.object.object; // equals 'invoice' or 'charge'
+    const invoiceData = webhook.data.object;
+    const customerId = invoiceData.customer;
+    const customer = Customers.findOne({ customerId });
 
-    if (customer && user) {
-      if (object === 'invoice') invoice = buildInvoice(user, data);
-      if (object === 'charge') invoice = buildInvoiceFromCharge(user, data);
-      if (invoice) invoiceId = Invoices.insert(invoice);
+    if (customer) {
+      const user = Meteor.users.findOne(
+        { _id: customer.userId },
+        { fields: { emails: 1, profile: 1 } }
+      );
+
+      if (invoiceType === 'invoice') invoice = buildInvoice(user, invoiceData);
+      if (invoiceType === 'charge') invoice = buildInvoiceFromCharge(user, invoiceData);
+      if (invoice) Invoices.insert(invoice);
+    } else {
+      console.warn(`Customer ${invoiceData.customer} not found.`);
     }
   } catch (exception) {
     console.warn(`[invoicePaymentSucceeded] ${exception}`);

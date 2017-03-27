@@ -1,7 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import Documents from './documents';
 import rateLimit from '../../modules/rate-limit.js';
+import validateDocumentQuota from '../../modules/validate-document-quota';
 
 export const upsertDocument = new ValidatedMethod({
   name: 'documents.upsert',
@@ -11,7 +13,17 @@ export const upsertDocument = new ValidatedMethod({
     body: { type: String, optional: true },
   }).validator(),
   run(document) {
-    return Documents.upsert({ _id: document._id }, { $set: document });
+    document.owner = this.userId;
+
+    if (Meteor.isServer) {
+      return validateDocumentQuota({ documentId: document._id, userId: this.userId })
+      .then(() => Documents.upsert({ _id: document._id }, { $set: document }))
+      .catch((error) => {
+        throw new Meteor.Error('500', `${error}`);
+      });
+    } else {
+      return Documents.upsert({ _id: document._id }, { $set: document });
+    }
   },
 });
 

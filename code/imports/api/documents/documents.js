@@ -18,6 +18,10 @@ Documents.deny({
 });
 
 Documents.schema = new SimpleSchema({
+  owner: {
+    type: String,
+    label: 'The ID of the owner of this document.',
+  },
   title: {
     type: String,
     label: 'The title of the document.',

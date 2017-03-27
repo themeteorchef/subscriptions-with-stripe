@@ -29,8 +29,6 @@ class Card extends React.Component {
   }
 }
 
-Card.propTypes = {
-  // prop: PropTypes.string.isRequired,
-};
+Card.propTypes = {};
 
 export default Card;
