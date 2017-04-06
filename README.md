@@ -1,6 +1,6 @@
 #### Tutorial: Subscriptions with Stripe
 
-Description of this tutorial goes here. Used in your tutorial repo's README.md file.
+In this tutorial, we'll learn how to create and manage
 
 [Read this tutorial on The Meteor Chef](https://themeteorchef.com/tutorials/subscriptions-with-stripe)  
 
