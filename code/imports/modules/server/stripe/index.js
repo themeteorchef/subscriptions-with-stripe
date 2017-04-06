@@ -43,7 +43,7 @@ stripe.subscriptions.create(subscription);
   subscriptionId = String; // The ID of the subscription on Stripe. For example: sub_AGLTRCbGMwmQcQ.
 */
 export const cancelSubscription = subscriptionId =>
-stripe.subscriptions.del(subscriptionId);
+stripe.subscriptions.del(subscriptionId, { at_period_end: true });
 
 /*
   subscriptionId = String; // The ID of the subscription on Stripe. For example: sub_AGLTRCbGMwmQcQ.

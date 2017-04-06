@@ -7,6 +7,14 @@ import { createCustomer, createSubscription } from './index';
 
 let action;
 
+const createCustomerInDatabase = Meteor.bindEnvironment((customer) => {
+  try {
+    return Customers.insert(customer);
+  } catch (exception) {
+    action.reject(`[handleSignup.createCustomerInDatabase] ${exception}`);
+  }
+});
+
 const createSubscriptionOnStripe = ({ customer, plan }) => {
   try {
     return createSubscription({ customer, plan })
@@ -16,14 +24,6 @@ const createSubscriptionOnStripe = ({ customer, plan }) => {
     action.reject(`[handleSignup.createSubscriptionOnStripe] ${exception}`);
   }
 };
-
-const createCustomerInDatabase = Meteor.bindEnvironment((customer) => {
-  try {
-    return Customers.insert(customer);
-  } catch (exception) {
-    action.reject(`[handleSignup.createCustomerInDatabase] ${exception}`);
-  }
-});
 
 const createCustomerOnStripe = ({ userId, profile, email }, source) => {
   try {

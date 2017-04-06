@@ -1,10 +1,12 @@
-import React, { PropTypes } from 'react';
-import stripe from '../../modules/stripe';
+/* eslint-disable new-cap */
+
+import React from 'react';
+import Stripe from '../../modules/stripe';
 
 class Card extends React.Component {
   componentDidMount() {
-    stripe((s) => {
-      this.elements = s.elements();
+    Stripe((stripe) => {
+      this.elements = stripe.elements();
       this.card = this.elements.create('card');
       this.card.mount('#card-element');
 

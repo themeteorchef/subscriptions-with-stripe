@@ -4,12 +4,19 @@
 import { Meteor } from 'meteor/meteor';
 
 export default (callback) => {
-  const script = document.createElement('script');
-  script.src = 'https://js.stripe.com/v3/';
-  document.body.appendChild(script);
+  const existingScript = document.getElementById('stripejs');
 
-  script.onload = () => {
-    window.stripe = Stripe(Meteor.settings.public.stripe);
-    if (callback) callback(window.stripe);
-  };
+  if (existingScript && callback) {
+    callback(window.stripe);
+  } else {
+    const script = document.createElement('script');
+    script.src = 'https://js.stripe.com/v3/';
+    script.id = 'stripejs';
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      window.stripe = Stripe(Meteor.settings.public.stripe);
+      if (callback) callback(window.stripe);
+    };
+  }
 };

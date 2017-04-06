@@ -1,16 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { Row, Col, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
+import { Row, Col, FormGroup, ControlLabel, Button, Alert } from 'react-bootstrap';
 import Plans from '../components/Plans';
 import Card from '../components/Card';
 import handleSignup from '../../modules/signup';
 
 class Signup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentDidMount() {
     handleSignup({ component: this });
   }
@@ -79,7 +73,7 @@ class Signup extends React.Component {
               <Row>
                 <Col xs={ 12 }>
                   <Alert bsStyle="info">
-                    <strong>Select a plan size</strong>. When you sign up, your subscription will begin immediately (renewed monthly). Cancel anytime.
+                    <strong>Select a plan size</strong>. When you sign up, your subscription will begin after a free one day trial (renewed monthly). Cancel anytime.
                   </Alert>
                   <Plans />
                 </Col>

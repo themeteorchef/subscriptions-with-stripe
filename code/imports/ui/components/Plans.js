@@ -8,7 +8,6 @@ class PlansList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { plan: props.currentPlan || 'small' };
-    // this.thing = this.thing.bind(this);
   }
 
   render() {

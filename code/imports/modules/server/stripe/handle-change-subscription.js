@@ -34,7 +34,7 @@ const handleChangeSubscription = ({ userId, newPlan }, promise) => {
     action = promise;
     const customer = getCustomer(userId);
     const status = customer.subscription.status;
-    const hasSubscription = status === 'active' || status === 'trialing';
+    const hasSubscription = status === 'active' || status === 'trialing' || status === 'cancelling';
 
     if (hasSubscription) {
       changeSubscription(customer.subscription.id, { plan: newPlan })

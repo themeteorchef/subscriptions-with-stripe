@@ -123,8 +123,7 @@ class Subscription extends React.Component {
     const subscription = this.getSubscription();
     const { customer } = this.props;
     const isCancelling = subscription.status === 'cancelling' ? `until ${subscription.current_period_end}` : '';
-    const hasSubscription = subscription.status !== 'none' && subscription.status !== 'canceled';
-    // TODO: Put hasSubscription to use or drop it entirely. Why's it here?
+
     return (<div className="Subscription">
       <ListGroup>
         <ListGroupItem>
