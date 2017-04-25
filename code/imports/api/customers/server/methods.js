@@ -17,7 +17,7 @@ Meteor.methods({
   changeSubscription(plan) {
     check(plan, String);
     return handleChangeSubscription({ userId: this.userId, newPlan: plan })
-    .then(cancellation => cancellation)
+    .then(subscription => subscription)
     .catch((error) => {
       throw new Meteor.Error('500', `${error}`);
     });
@@ -32,7 +32,7 @@ Meteor.methods({
   updatePayment(source) {
     check(source, String);
     return handleUpdatePayment({ userId: this.userId, source })
-    .then(cancellation => cancellation)
+    .then(update => update)
     .catch((error) => {
       throw new Meteor.Error('500', `${error}`);
     });
