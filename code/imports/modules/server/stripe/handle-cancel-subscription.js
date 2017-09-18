@@ -29,6 +29,7 @@ const handleCancelSubscription = (userId, promise) => {
           'subscription.current_period_end': current_period_end,
         },
       });
+      action.resolve();
     }))
     .catch(error => action.reject(error));
   } catch (exception) {
