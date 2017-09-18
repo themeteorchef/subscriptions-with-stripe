@@ -10,7 +10,7 @@ const customerSubscriptionUpdated = ({ data }) => {
       Customers.update(customer._id, {
         $set: {
           'subscription.id': data.id,
-          'subscription.status': status,
+          'susbcription.status': data.cancel_at_period_end ? 'cancelling' : data.status,
           'subscription.plan': data.plan.id,
           'subscription.current_period_end': data.current_period_end,
         },

@@ -1,8 +1,0 @@
-{
-  "public": {
-    "stripe": "pk_test_<key>"
-  },
-  "private": {
-    "stripe": "sk_test_<key>"
-  }
-}
